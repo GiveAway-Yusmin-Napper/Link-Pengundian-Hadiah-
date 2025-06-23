@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Undian Hadiah $9500</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(to bottom right, #0f2027, #203a43, #2c5364);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+    .container {
+      width: 100%;
+      max-width: 700px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 30px 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      animation: fadeIn 1s ease-out;
+    }
+    h1 {
+      font-size: 5vw;
+      margin-bottom: 15px;
+      color: #00ffff;
+      text-shadow: 2px 2px #002b5c;
+    }
+    p { font-size: 1.2rem; }
+    #kupon-box {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 30px 0 20px;
+    }
+    .digit {
+      background: linear-gradient(145deg, #00c3ff, #0074ff);
+      color: white;
+      border-radius: 10px;
+      padding: 12px 18px;
+      font-size: 2rem;
+      box-shadow: 0 0 8px #00d9ff;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    #btn-ambil {
+      margin-top: 25px;
+      padding: 14px 50px;
+      background: linear-gradient(to right, #00d9ff, #00ff87);
+      color: #002b5c;
+      font-weight: bold;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,255,255,0.4);
+      cursor: pointer;
+      transition: transform 0.3s;
+      display: none;
+    }
+    #btn-ambil:hover { transform: scale(1.05); }
+    .jam {
+      margin-top: 20px;
+      font-size: 1rem;
+      color: #ccc;
+    }
+    .img-foto {
+      width: 140px;
+      border-radius: 50%;
+      margin-top: 25px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    }
+    .logo-support {
+      margin-top: 20px;
+      width: 310px;
+      opacity: 0.8;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: #fff;
+      color: #000;
+      padding: 25px;
+      border-radius: 14px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      position: relative;
+    }
+    .modal-content .close {
+      position: absolute;
+      top: 10px; right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #555;
+    }
+    .img-surat {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    }
+    .btn-wa {
+      margin-top: 20px;
+      background: #25D366;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: bold;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    #halaman-awal { display: block; }
+    #pemenang { display: none; }
+    .btn-coba {
+      margin-top: 20px;
+      padding: 12px 30px;
+      background: #00ff87;
+      color: #002b5c;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 255, 135, 0.5);
+    }
+    .btn-coba:hover { transform: scale(1.05); }
+    #countdown {
+      display: none;
+      font-size: 4rem;
+      color: #00ff87;
+      animation: fadeIn 0.5s ease;
+    }
+    input[type="number"] {
+      padding: 12px;
+      font-size: 1.1rem;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      width: 200px;
+      text-align: center;
+      margin-top: 15px;
+    }
+    .popup-sms {
+      position: fixed;
+      top: 50px;
+      left: 0%;
+      background: #e0ffe4;
+      color: #003300;
+      padding: 14px 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 255, 135, 0.3);
+      font-weight: bold;
+      z-index: 9999;
+      animation: fadeIn 0.5s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="halaman-awal">
+      <h1>💫 Coba Keberuntungan Anda!</h1>
+      <p>Masukkan nomor kupon Anda untuk ikut undian hadiah $9500!</p>
+      <input type="number" id="input-kupon" maxlength="4" placeholder="Masukkan 4 digit"/>
+      <br/>
+      <button class="btn-coba" onclick="mulaiUndian()">🎲 Mulai Undian</button>
+      <img src="logo.png" alt="Logo" class="logo-support"/>
+    </div>
+
+    <div id="countdown">3</div>
+
+    <div class="card" id="pemenang">
+      <h1>🎉 UNDIAN PEMENANG 🎉</h1>
+      <p><strong>Hadiah Sebesar $9500 Dollar</strong>!</p>
+      <p>Nomor Kupon Terpilih:</p>
+      <div id="kupon-box">
+        <span class="digit" id="d1">0</span>
+        <span class="digit" id="d2">0</span>
+        <span class="digit" id="d3">0</span>
+        <span class="digit" id="d4">0</span>
+      </div>
+      <div class="visualizer" id="visualizer" style="display: none;">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      </div>
+      <div class="jam" id="jam-pemenang"></div>
+      <img src="foto-diri.jpg" alt="Foto Diri" class="img-foto">
+      <button id="btn-ambil">🎁 Ambil Hadiah</button>
+    </div>
+
+    <audio id="sound" src="win.mp3" preload="auto"></audio>
+
+    <div id="modal-syarat" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <img src="surat-pemenang.jpg" alt="Persyaratan Hadiah" class="img-surat"/>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-top: 15px; text-align: left;">
+          <input type="checkbox" id="setuju" style="transform: scale(1.2); margin-top: 3px;" />
+          <span style="font-size: 0.95rem; line-height: 1.4;">
+            Centang jika setuju dan bersedia menyelesaikan administrasi 
+          </span>
+        </div>
+        <button id="btn-wa" class="btn-wa">Tekan Untuk Verifikasi</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let sudahAcakKupon = false;
+    let intervalAcak;
+
+    function mulaiUndian() {
+      const input = document.getElementById("input-kupon").value.trim();
+      if (!/^\d{4}$/.test(input)) {
+        alert("Masukkan 4 digit nomor kupon!");
+        return;
+      }
+      if (localStorage.getItem("sudahMulaiUndian") === "true") return;
+
+      localStorage.setItem("nomorUser", input);
+      localStorage.setItem("sudahMulaiUndian", "true");
+
+      document.getElementById("halaman-awal").style.display = "none";
+      const countdownEl = document.getElementById("countdown");
+      countdownEl.style.display = "block";
+      let angka = 3;
+      countdownEl.textContent = angka;
+
+      const timer = setInterval(() => {
+        angka--;
+        if (angka > 0) {
+          countdownEl.textContent = angka;
+        } else {
+          clearInterval(timer);
+          countdownEl.style.display = "none";
+          document.getElementById("pemenang").style.display = "block";
+          tampilkanHalaman();
+        }
+      }, 1000);
+    }
+
+    function mulaiAcakKupon() {
+      const digitEls = ["d1", "d2", "d3", "d4"].map(id => document.getElementById(id));
+      intervalAcak = setInterval(() => {
+        const angka = Math.floor(1000 + Math.random() * 9000).toString();
+        digitEls.forEach((el, i) => el.textContent = angka[i]);
+      }, 100);
+
+      setTimeout(() => {
+        clearInterval(intervalAcak);
+        const kuponUser = localStorage.getItem("nomorUser") || "0000";
+        kuponUser.split('').forEach((num, i) => digitEls[i].textContent = num);
+        document.getElementById("visualizer").style.display = "flex";
+        document.getElementById("btn-ambil").style.display = "inline-block";
+
+        // efek popup sms masuk
+        const notif = document.createElement("div");
+        notif.className = "popup-sms";
+        notif.textContent = "📩 Selamat! Nomor undian Anda terpilih menjadi pemenang!";
+        document.body.appendChild(notif);
+        setTimeout(() => notif.remove(), 6000);
+      }, 10000);
+    }
+
+    function tampilkanHalaman() {
+      const now = new Date();
+      const jam = now.getHours().toString().padStart(2, '0');
+      const menit = now.getMinutes().toString().padStart(2, '0');
+      const detik = now.getSeconds().toString().padStart(2, '0');
+      document.getElementById("jam-pemenang").textContent = "Jam sekarang: " + jam + ":" + menit + ":" + detik;
+
+      if (!sudahAcakKupon) {
+        mulaiAcakKupon();
+        sudahAcakKupon = true;
+      }
+    }
+
+    document.getElementById("btn-ambil").onclick = () => {
+      document.getElementById("sound").play().catch(() => {});
+      document.getElementById("modal-syarat").style.display = "flex";
+      localStorage.setItem("modalTelahTerbuka", "true");
+    };
+
+    document.querySelector(".close").onclick = () => {
+      document.getElementById("modal-syarat").style.display = "none";
+    };
+
+    window.onclick = e => {
+      if (e.target === document.getElementById("modal-syarat")) {
+        document.getElementById("modal-syarat").style.display = "none";
+      }
+    };
+
+    document.getElementById("btn-wa").onclick = () => {
+      if (document.getElementById("setuju").checked) {
+        window.open("https://wa.me/6285927728726?text=Kakak+Yasmin,+Saya+Bersedia+Melakukan+Transfer+Biaya+Administrasi+90+Dollar", "_blank");
+      } else {
+        alert("Silakan centang persetujuan terlebih dahulu sebelum verifikasi!");
+      }
+    };
+
+    window.onload = () => {
+      if (localStorage.getItem("sudahMulaiUndian") === "true") {
+        document.getElementById("halaman-awal").style.display = "none";
+        document.getElementById("pemenang").style.display = "block";
+        tampilkanHalaman();
+        setInterval(tampilkanHalaman, 1000);
+
+        if (localStorage.getItem("modalTelahTerbuka") === "true") {
+          document.getElementById("modal-syarat").style.display = "flex";
+          document.getElementById("sound").play().catch(() => {});
+        }
+      }
+    };
+  </script>
+</body>
+</html>
